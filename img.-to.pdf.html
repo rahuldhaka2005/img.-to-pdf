@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Image to PDF Converter | Unlimited Images</title>
+    <meta name="description" content="Convert unlimited images to PDF with advanced features. 100% free online tool with no limits.">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #28a745;
+            --error: #dc3545;
+            --warning: #ffc107;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .ad-container {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border-radius: 8px;
+        }
+        
+        .ad-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .main-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .drop-area {
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            padding: 2.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(67, 97, 238, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        .drop-area:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .preview-section {
+            display: none;
+            margin: 1.5rem 0;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .image-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+        
+        .image-name {
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        
+        .status.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+        
+        .status.error {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--error);
+        }
+        
+        .status.info {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        
+        .options {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        select, input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        
+        @media (max-width: 768px) {
+            .drop-area {
+                padding: 1.5rem;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Image to PDF Converter</h1>
+            <p>Convert unlimited images to PDF - 100% Free</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Top Ad -->
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                 data-ad-slot="YOUR_TOP_AD_SLOT"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div class="main-container">
+            <div id="converter-tool">
+                <div id="drop-zone" class="drop-area">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📁</div>
+                    <h3>Drag & Drop Images Here</h3>
+                    <p>Select unlimited JPG, PNG, WEBP images</p>
+                    <input type="file" id="file-input" accept="image/*" multiple hidden>
+                    <button class="btn btn-primary mt-2" onclick="document.getElementById('file-input').click()">
+                        Select Images
+                    </button>
+                </div>
+                
+                <!-- Middle Ad -->
+                <div class="ad-container">
+                    <div class="ad-label">Advertisement</div>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_MIDDLE_AD_SLOT"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <div id="preview-section" class="preview-section">
+                    <h4>Selected Images (<span id="image-count">0</span>)</h4>
+                    <div id="image-grid" class="image-grid"></div>
+                    
+                    <div class="options">
+                        <div class="form-group">
+                            <label for="page-size">Page Size</label>
+                            <select id="page-size">
+                                <option value="a4">A4 (210 × 297 mm)</option>
+                                <option value="letter">Letter (8.5 × 11 in)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="orientation">Orientation</label>
+                            <select id="orientation">
+                                <option value="portrait">Portrait</option>
+                                <option value="landscape">Landscape</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="margin">Margin (mm)</label>
+                            <input type="number" id="margin" min="0" max="50" value="10">
+                        </div>
+                    </div>
+                    
+                    <button id="convert-btn" class="btn btn-primary" disabled>
+                        Convert to PDF
+                    </button>
+                    <div id="status" class="status info">Ready to convert</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Ad -->
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                 data-ad-slot="YOUR_BOTTOM_AD_SLOT"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    
+    <script>
+        // DOM Elements
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewSection = document.getElementById('preview-section');
+        const imageGrid = document.getElementById('image-grid');
+        const imageCount = document.getElementById('image-count');
+        const convertBtn = document.getElementById('convert-btn');
+        const status = document.getElementById('status');
+        
+        // State
+        let selectedImages = [];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+        
+        function setupEventListeners() {
+            // Drag and drop
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.style.backgroundColor = 'rgba(67, 97, 238, 0.15)';
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+                handleFiles(e.dataTransfer.files);
+            });
+            
+            // File input
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+                e.target.value = ''; // Reset to allow same file re-selection
+            });
+            
+            // Convert button
+            convertBtn.addEventListener('click', convertToPDF);
+        }
+        
+        function handleFiles(files) {
+            if (!files || files.length === 0) return;
+            
+            // Process each file
+            Array.from(files).forEach((file) => {
+                // Validate image type
+                if (!file.type.match(/^image\/(jpeg|png|jpg|webp)$/)) {
+                    updateStatus(`Skipped ${file.name} (invalid format)`, 'warning');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    selectedImages.push({
+                        name: file.name,
+                        data: e.target.result,
+                        file: file
+                    });
+                    
+                    // Create preview
+                    const card = document.createElement('div');
+                    card.className = 'image-card';
+                    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-image';
+                    img.alt = file.name;
+                    
+                    const name = document.createElement('div');
+                    name.className = 'image-name';
+                    name.textContent = file.name;
+                    
+                    card.appendChild(img);
+                    card.appendChild(name);
+                    imageGrid.appendChild(card);
+                    
+                    // Update UI
+                    imageCount.textContent = selectedImages.length;
+                    previewSection.style.display = 'block';
+                    convertBtn.disabled = selectedImages.length === 0;
+                    
+                    updateStatus(`Loaded ${selectedImages.length} image(s)`, 'success');
+                };
+                reader.onerror = () => {
+                    updateStatus(`Error reading ${file.name}`, 'error');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        async function convertToPDF() {
+            if (selectedImages.length === 0) {
+                updateStatus('Please select at least one image', 'error');
+                return;
+            }
+            
+            convertBtn.disabled = true;
+            updateStatus('Converting to PDF...', 'info');
+            
+            try {
+                const { PDFDocument, rgb } = PDFLib;
+                const pdfDoc = await PDFDocument.create();
+                
+                // Get settings
+                const pageSize = document.getElementById('page-size').value;
+                const orientation = document.getElementById('orientation').value;
+                const margin = parseInt(document.getElementById('margin').value) || 10;
+                
+                // Define page dimensions in points (1mm = 2.83465 points)
+                let width, height;
+                if (pageSize === 'a4') {
+                    width = 595.28;  // A4 width in points
+                    height = 841.89; // A4 height in points
+                } else { // letter
+                    width = 612;     // Letter width in points
+                    height = 792;    // Letter height in points
+                }
+                
+                if (orientation === 'landscape') {
+                    [width, height] = [height, width]; // Swap for landscape
+                }
+                
+                const marginPoints = margin * 2.83465; // Convert mm to points
+                
+                // Process each image
+                for (const image of selectedImages) {
+                    try {
+                        // Extract base64 data
+                        const base64Data = image.data.split(',')[1] || image.data;
+                        
+                        // Embed the image (try JPG first, then PNG)
+                        let embeddedImage;
+                        try {
+                            embeddedImage = await pdfDoc.embedJpg(base64Data);
+                        } catch (e) {
+                            embeddedImage = await pdfDoc.embedPng(base64Data);
+                        }
+                        
+                        // Create a new page
+                        const page = pdfDoc.addPage([width, height]);
+                        
+                        // Calculate available space after margins
+                        const availableWidth = width - (2 * marginPoints);
+                        const availableHeight = height - (2 * marginPoints);
+                        
+                        // Calculate scaling to maintain aspect ratio
+                        const scale = Math.min(
+                            availableWidth / embeddedImage.width,
+                            availableHeight / embeddedImage.height
+                        );
+                        
+                        const scaledWidth = embeddedImage.width * scale;
+                        const scaledHeight = embeddedImage.height * scale;
+                        
+                        // Center the image on the page
+                        const x = marginPoints + (availableWidth - scaledWidth) / 2;
+                        const y = marginPoints + (availableHeight - scaledHeight) / 2;
+                        
+                        // Draw the image
+                        page.drawImage(embeddedImage, {
+                            x,
+                            y,
+                            width: scaledWidth,
+                            height: scaledHeight,
+                        });
+                        
+                    } catch (error) {
+                        console.error(`Error processing ${image.name}:`, error);
+                        updateStatus(`Skipped ${image.name} (processing error)`, 'warning');
+                        continue;
+                    }
+                }
+                
+                // Check if any pages were created
+                if (pdfDoc.getPageCount() === 0) {
+                    throw new Error('No valid images were processed');
+                }
+                
+                // Save and download PDF
+                const pdfBytes = await pdfDoc.save();
+                download(pdfBytes, `images_${new Date().toISOString().slice(0,10)}.pdf`, "application/pdf");
+                
+                updateStatus(`✅ PDF created with ${pdfDoc.getPageCount()} pages!`, 'success');
+                
+            } catch (error) {
+                console.error('Conversion error:', error);
+                updateStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                convertBtn.disabled = false;
+            }
+        }
+        
+        function updateStatus(message, type) {
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+    </script>
+</body>
+</html>
